@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DWLT Dashboard - OSM Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+  
+      select {
+        font-size: 14px;
+      }
+  
+      .dropdown {
+        position: absolute;
+        top: 10px;
+        Right: 10px;
+        z-index: 999;
+        background: white;
+        padding: 8px;
+        border-radius: 4px;
+        font-family: sans-serif;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Map container -->
+    <div id="map"></div>
+  
+    <!-- Dropdown to toggle sensor display -->
+    <div class="dropdown">
+        <div class="menu-wrapper">
+          <label class="main-label">🛰️ Smart View</label>
+          <select id="sensorType">
+            <option value="">-- Select Option --</option>
+            <optgroup label="🌦️ Weather">
+              <option value="temperature">🌡️ Temperature</option>
+              <option value="humidity">💧 Humidity</option>
+            </optgroup>
+            <optgroup label="🅿️ Parking">
+              <option value="parking">🅿️ Parking Status</option>
+            </optgroup>
+          </select>
+        </div>
+
+    </div>
+  
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script> -->
+    <script src="script.js"></script>
+  </body>
+  
+</html>

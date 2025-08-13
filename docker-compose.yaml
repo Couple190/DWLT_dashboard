@@ -1,0 +1,56 @@
+
+version: "3.7"
+
+services:
+  mongo:
+    image: mongo:4.2
+    container_name: mongo
+    ports:
+      - "27017:27017"
+
+  orion:
+    image: fiware/orion:3.3.0
+    container_name: orion
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "1026:1026"
+    command: -dbhost mongo -corsOrigin __ALL
+    environment:
+      - ORION_LOG_LEVEL=DEBUG
+      - CORS_ALLOWED_ORIGIN=*
+      - CORS_ALLOWED_ORIGIN=http://localhost:8000
+
+  crate:
+    image: crate:4.5.1
+    container_name: crate
+    ports:
+      - "4200:4200"
+      - "5432:5432"
+    environment:
+      - CRATE_HEAP_SIZE=1g
+      - CRATE_CLUSTER_NAME=crate-cluster
+    command: crate -Cauth.host_based.enabled=false
+
+  quantumleap:
+    image: orchestracities/quantumleap:0.8.3
+    container_name: quantumleap
+    depends_on:
+      - crate
+    ports:
+      - "8668:8668"
+    environment:
+      - CRATE_HOST=crate
+      - LOGLEVEL=DEBUG
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:
